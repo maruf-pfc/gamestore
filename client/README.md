@@ -1,75 +1,41 @@
-# React + TypeScript + Vite
+# GameStore React Front-End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, simple client application crafted in React, Vite, and TypeScript. This repository handles the front-end user experience for managing the GameStore architecture.
 
-Currently, two official plugins are available:
+## How It Works
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The GameStore application is comprised of two discrete layers working together:
 
-## React Compiler
+1. **The ASP.NET Core Backend (`GameStore.API`)**:
+   - Built via Minimal APIs pattern, serving lightweight HTTP endpoints.
+   - Connects to a SQL Server database localized using Entity Framework Core.
+   - Database schemas and initial pre-seeded `Genres` (like "Fighting", "Roleplaying") are deployed automatically when the API starts via `context.Database.Migrate()`.
+   - Manages connection secrets dynamically via a `.env` file wrapper using `DotNetEnv`.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+2. **The React Frontend (`client`)**:
+   - Engineered via `bun create vite`, resulting in an ultra-fast build process alongside TypeScript type safety.
+   - Handles views using component-based structural patterns (`GameList`, `GameForm`, `Navigation`) to easily render states seamlessly via standard Vanilla React Hooks (`useState`, `useEffect`).
+   - Relies on `react-router-dom` for Single Page Application navigation, ensuring fluid, reload-free transitions.
+   - Communicates with the Backend entirely contained in the `src/services/api.ts` file via the native `fetch` Web API.
 
-Note: This will impact Vite dev & build performances.
+### Workflow
+When a user visits the client:
+- The React App accesses `http://localhost:5270/games` where it is allowed through ASP.NET's CORS (`Cross-Origin Resource Sharing`) mapping.
+- The user can Read, Add, Edit, or Delete games using the lightweight DTOs structure bridging the client and ASP.NET.
+- A minimalistic CSS architecture (`index.css`) renders the layout in a clean, human-readable UI without heavy reliance on bulky styling frameworks.
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Launch the API Layer:**
+   Ensure SQL Server is running, open a terminal in the `GameStore.API` folder, and type:
+   ```bash
+   dotnet run
+   ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. **Launch the Client:**
+   Open a separate terminal in the `client` directory, and start the Vite dev server with Bun:
+   ```bash
+   bun i
+   bun run dev
+   ```
+   Navigate to `http://localhost:5173` to see the GameStore.
