@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
     "Name": "Hollow Knight",
-    "Genre": "",
+    "GenreId": 1,
     "Price": 14.99,
     "ReleaseDate": "2017-02-24"
 }
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 {
     "Name": "The Legend of Zelda: Tears of the Kingdom",
-    "Genre": "Action Adventure",
+    "GenreId": 2,
     "Price": 40.99,
     "ReleaseDate": "2023-05-12"
 }

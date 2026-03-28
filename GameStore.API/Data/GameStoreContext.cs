@@ -16,20 +16,12 @@ public class GameStoreContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<Game>(entity =>
-        {
-            entity.HasKey(g => g.Id);
-            entity.Property(g => g.Name).IsRequired().HasMaxLength(100);
-            entity.Property(g => g.Genre).HasMaxLength(50);
-            entity.Property(g => g.Price).HasColumnType("decimal(18,2)"); // Explicitly specify column type
-        });
-
-        modelBuilder.Entity<Genre>(entity =>
-        {
-            entity.HasKey(g => g.Id);
-            entity.Property(g => g.Name).IsRequired().HasMaxLength(50);
-        });
+        modelBuilder.Entity<Genre>().HasData(
+            new { Id = 1, Name = "Fighting" },
+            new { Id = 2, Name = "Roleplaying" },
+            new { Id = 3, Name = "Sports" },
+            new { Id = 4, Name = "Racing" },
+            new { Id = 5, Name = "Kids and Family" }
+        );
     }
 }
