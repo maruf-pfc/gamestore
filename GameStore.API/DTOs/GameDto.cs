@@ -7,7 +7,7 @@ public record class GameDto(
     int Id,
     [Required][StringLength(100, MinimumLength = 1)]
     string Name,
-    [Required][StringLength(50)]
+    [StringLength(50)]
     string Genre,
     [Required][Range(1, double.MaxValue)]
     decimal Price,
